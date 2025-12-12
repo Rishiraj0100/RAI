@@ -45,7 +45,7 @@ RAI is a web platform that allows users to **create AI models** and **chat with 
         ```bash
         ollama pull llama3.2
         ```
-   - Add the model names to [routes/models.py (Line 18)](routes/models.py#L29)
+   - Add the model names to [routes/models.py (Line 29)](routes/models.py#L29)
 
 5. Setup database and run the project
     ```bash
@@ -53,7 +53,7 @@ RAI is a web platform that allows users to **create AI models** and **chat with 
     python3 run.py
     ```
     - Now open http://localhost:8090/x to create admin user.
-    - You can change the credentials at [run.py (Line 33)](run.py#L43).
+    - You can change the credentials at [run.py (Line 43)](run.py#L43).
 
 ---
 Now your project is ready for production deployment.
