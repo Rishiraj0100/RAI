@@ -1,0 +1,48 @@
+{% extends "layout.jinja" %}
+
+{% block title %}Contanct Messages - RAI{% endblock %}
+
+{% block contents %}
+<section class="min-h-screen flex flex-col gap-y-2 items-center justify-center bg-primary-950 py-12 px-4 sm:px-6 lg:px-8 text-white">
+    <div class="bg-primary-900 p-8 rounded-lg shadow-lg w-full max-w-3xl">
+        <h2 class="text-2xl font-bold mb-6 text-center">Contact Messages</h2>
+        {# search bar #}
+        <input type="text" id="search" placeholder="Search messages..." class="w-full p-2 rounded-lg bg-primary-800 text-white border border-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 mb-6" onkeyup="filterMessages()" />
+        <script>
+function filterMessages() {
+    const input = document.getElementById('search');
+    const filter = input.value.toLowerCase();
+    const messages = document.querySelectorAll('.bg-primary-700');
+
+    messages.forEach(message => {
+        const text = message.textContent || message.innerText;
+        if (text.toLowerCase().indexOf(filter) > -1) {
+            message.style.display = "";
+        } else {
+            message.style.display = "none";
+        }
+    });
+}
+        </script>
+        {% if messages|length == 0 %}
+            <p class="text-center">No contact messages found.</p>
+        {% else %}
+            <div class="space-y-4">
+                {% for message in messages %}
+                    <div class="bg-primary-700 p-4 rounded-lg" id="m-{{ message.id }}">
+                        <h3 class="text-xl font-semibold mb-2">{{ message.subject }}</h3>
+                        <p class="text-sm mb-1">From: {{ message.name }} ({{ message.email }})</p>
+                        <p class="text-sm mb-1">ID: {{ message.id }}</p>
+                        <p class="text-sm mb-2">Sent: {{ message.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        <p class="text-base whitespace-pre-wrap hidden">{{ message.message }}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button class="mt-2 mx-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold p-3 rounded-lg" onclick="alert(this.previousElementSibling.textContent)">Show Message</button>
+                            <button class="mt-2 mx-auto bg-red-600 hover:bg-red-700 text-white font-semibold p-3 rounded-lg" onclick="if(confirm('Are you sure you want to delete this message?')){fetch('/admin/contact_messages/{{ message.id }}', {method: 'DELETE'}).then(response => {if(response.ok){popup('Successfully deleted the message.','success');document.getElementById('m-{{ message.id }}').remove();}else{popup('Failed to delete message.');}});}">Delete Message</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

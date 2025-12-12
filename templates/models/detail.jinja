@@ -1,0 +1,40 @@
+{% extends "layout.jinja" %}
+
+{% block title %}{{ model.name }} - RAI{% endblock title %}
+
+{% block contents %}
+<section class="min-h-screen bg-amber-950 min-w-screen">
+    <div class="flex min-h-screen items-center text-white justify-center">
+        <div class="flex flex-col bg-primary-900 rounded-lg shadow-lg p-6 w-fit text-lg">
+            <h2 class="title text-6xl text-center text-bold">{{ model.name }}</h2>
+            <hr class="my-4" />
+            <p class="description">Engine: {{ model.engine }}</p>
+            <p class="description">Owner: {{ model.owner.username }}</p>
+            <p class="description">Description: {{ model.description }}</p>
+            <br />
+            <div>
+                <a href="/models/{{ model.username }}/chat" is="a-c" class="w-max" >Chat Now</a>
+                {% if user.id == model.owner.id %}
+                    <a href="/models/{{ model.username }}/edit" is="a-c" class="w-max ml-4 border-red-600 bg-red-600 hover:bg-red-700" >Edit</a>
+                    <button is="button-c" type="submit" data-ai="{{ model.username }}" class="delete border-red-600 bg-red-600 hover:bg-red-700">Delete Model</button>
+                    <script>
+                        document.querySelectorAll('.delete').forEach(button => {
+                            button.addEventListener('click', async () => {
+                                const aiName = button.getAttribute('data-ai');
+                                if (confirm(`Are you sure you want to delete the AI "${aiName}"? This action cannot be undone.`)) {
+                                    const response = await fetch(`/models/${aiName}`, {
+                                        method: 'DELETE',
+                                    });
+                                    if (response.redirected) {
+                                        window.location.href = response.url;
+                                    }
+                                }
+                            });
+                        });
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock contents %}

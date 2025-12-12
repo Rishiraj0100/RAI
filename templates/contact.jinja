@@ -1,0 +1,37 @@
+{% extends "layout.jinja" %}
+
+{% block title %}Contact - RAI{% endblock %}
+
+{% block contents %}
+<section class="min-h-screen flex flex-col gap-y-2 items-center justify-center bg-primary-950 py-12 px-4 sm:px-6 lg:px-8 text-white">
+    <div class="bg-primary-900 p-8 rounded-lg shadow-lg w-full max-w-3xl">
+        <h2 class="text-2xl font-bold mb-6 text-center">Contact Us</h2>
+        <hr class="-mt-2 mb-6 border-primary-500" />
+        <div class="prose prose-invert max-w-none">
+            <form action="/contact" method="post" class="space-y-4" onsubmit="((e)=>{if(!confirm('Are you sure you want to send this message?')){e.preventDefault();return false};return true;})(event)">
+                <div>
+                    <label for="name" class="block text-lg font-medium mb-1">Name:</label>
+                    <input type="text" id="name" name="name" required class="w-full p-2 rounded-lg bg-primary-800 text-white border border-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500" />
+                </div>
+                {% if not user %}
+                    <div>
+                        <label for="email" class="block text-lg font-medium mb-1">Email:</label>
+                        <input type="email" id="email" name="email" required class="w-full p-2 rounded-lg bg-primary-800 text-white border border-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500" />
+                    </div>
+                {% endif %}
+                <div>
+                    <label for="subject" class="block text-lg font-medium mb-1">Subject:</label>
+                    <input type="text" maxlength="200" required id="subject" name="subject" class="w-full p-2 rounded-lg bg-primary-800 text-white border border-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500" />
+                </div>
+                <div>
+                    <label for="message" class="block text-lg font-medium mb-1">Message:</label>
+                    <textarea id="message" name="message" rows="5" required class="w-full p-2 rounded-lg bg-primary-800 text-white border border-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500"></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

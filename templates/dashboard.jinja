@@ -1,0 +1,64 @@
+{% extends "layout.jinja" %}
+
+{% block title %}Dashboard - RAI{% endblock title %}
+
+{% block contents %}
+<section class="min-h-screen bg-primary-950 max-w-screen">
+    <div class="flex min-h-screen items-center text-white justify-between">
+        <div class="flex flex-col px-6 text-lg">
+            <h2 class="title text-6xl text-bold">RAI</h2>
+            <h3 class="subtitle">Create an AI at our place for free!</h3>
+            <p class="description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione inventore debitis nihil porro placeat. Iste officia, odio ea facere, sed provident assumenda, fuga numquam nam praesentium iusto atque commodi aspernatur!</p>
+            <br />
+
+            <div class="grid">
+                <div class="grid grid-cols-2 mx-auto gap-8">
+                    <a href="/models/new" class="w-max" is="a-c">Create an AI</a>
+                    {% if user.admin %}
+                        <a href="{{ url_for('admin.dashboard') }}" class="w-max" is="a-c">Admin Panel</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="min-h-screen bg-white">
+    <div class="flex min-h-screen justify-center text-black items-start">
+        <div class="flex flex-col p-6 text-lg">
+            <h1 class="title text-6xl font-bold text-center">My AIs</h1>
+            <hr class="mb-8" />
+            <p class="description">
+                {% if ais %}
+                    {% for ai in ais %}
+                        <div  id="ai-{{ ai.username }}" class="mb-4 p-4 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                            <h2 class="text-2xl font-semibold">{{ ai.name }}</h2>
+                            <p class="text-gray-600">Engine: {{ ai.engine }}</p>
+                            <div class="mt-2">
+                                <a href="/models/{{ ai.username }}" is="a-c" class="mr-4">View Details</a>
+                                <button is="button-c" variant="inverted" class="text-sm delete" data-ai="{{ ai.username }}">Delete</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <script>
+                        document.querySelectorAll('.delete').forEach(button => {
+                            button.addEventListener('click', async () => {
+                                const aiName = button.getAttribute('data-ai');
+                                if (confirm(`Are you sure you want to delete the AI "${aiName}"? This action cannot be undone.`)) {
+                                    const response = await fetch(`/models/${aiName}`, {
+                                        method: 'DELETE',
+                                    });
+                                    if (response.redirected) {
+                                        window.location.href = response.url;
+                                    }
+                                }
+                            });
+                        });
+                    </script>
+                {% else %}
+                    You've not created an AI yet.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock contents %}

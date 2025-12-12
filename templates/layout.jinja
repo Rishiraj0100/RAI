@@ -1,0 +1,97 @@
+{# 
+RAI Project
+
+Copyright 2025 Rishiraj0100
+
+Licensed under the Apache License, Version 2.0
+You may not use this file except in compliance with the License.
+You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
+ #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% include "includes/scripts/script.jinja" %}
+    <title>
+        {% block title %}{{title if title else 'Document'}}{% endblock %}
+    </title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Miniver&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: "poppins", sans-serif;
+}
+</style>
+<style type="text/tailwindcss">
+    @theme {
+        --color-accent: #3b82f6;
+        
+        --color-primary-50: var(--color-amber-50);
+        --color-primary-100: var(--color-amber-100);
+        --color-primary-200: var(--color-amber-200);
+        --color-primary-300: var(--color-amber-300);
+        --color-primary-400: var(--color-amber-400);
+        --color-primary-500: var(--color-amber-500);
+        --color-primary-600: var(--color-amber-600);
+        --color-primary-700: var(--color-amber-700);
+        --color-primary-800: var(--color-amber-800);
+        --color-primary-900: var(--color-amber-900);
+        --color-primary-950: var(--color-amber-950);
+    }
+
+    @layer utilities {
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: var(--color-primary-900);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: var(--color-primary-600);
+            border-radius: 4px;
+            border: 2px solid var(--color-primary-900);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: var(--color-primary-500);
+        }
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-primary-600) var(--color-primary-900);
+        }
+    }
+</style>
+    {% block head %}
+    
+    {% endblock head %}
+</head>
+<body style="display: none">
+<div id="root">
+    {% include "includes/nav.jinja" %}
+
+    <main>
+        {% block contents %}{% endblock contents %}
+    </main>
+
+    <footer>
+        <section class="bg-gray-900 text-white py-6 mt">
+            <div class="container mx-auto text-center">
+                <p class="mb-2">&copy; 2025 RAI. All rights reserved.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="/tos" class="hover:text-white text-slate-400 transition-colors">Terms of Service</a>
+                    <span>|</span>
+                    <a href="/privacy_policy" class="hover:text-white text-slate-400 transition-colors">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="https://github.com/Rishiraj0100/RAI" target="_blank" class="hover:text-white text-slate-400 transition-colors"><i class="fab fa-github mr-1"></i>GitHub</a>
+                </div>
+            </div>
+        </section>
+    </footer>
+</div>
+</body>
+</html>

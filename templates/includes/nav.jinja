@@ -1,0 +1,18 @@
+<header class="bg-primary-900">
+    <nav class="flex p-5 items-center justify-between">
+        <a href="/" class="nav-logo">
+            <h2 class="text-slate-400 text-2xl font-semibold">
+            <img src="/static/img/logo.png" alt="RAI Logo" class="h-8 inline-block mr-2">
+            RAI</h2>
+        </a>
+        <ul class="nav-menu flex gap-2.5">
+            <li class="nav-item">
+                {% if user %}
+                    <a href="/logout" class="nav-link" is="a-c" variant="nav">Logout</a>
+                {% else %}
+                    <a href="/login" class="nav-link" is="a-c" variant="nav">Login</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+</header>

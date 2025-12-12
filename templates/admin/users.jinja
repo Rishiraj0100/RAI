@@ -1,0 +1,58 @@
+{% extends "layout.jinja" %}
+
+{% block title %}Users | Admin Panel - RAI{% endblock %}
+
+{% block contents %}
+<section class="min-h-screen flex flex-col gap-y-2 items-center justify-center bg-primary-950 py-12 px-4 sm:px-6 lg:px-8 text-white">
+    <div class="bg-primary-900 p-8 rounded-lg shadow-lg w-full">
+        <h2 class="text-2xl font-bold mb-6 text-center">Users</h2>
+        <input type="text" id="user-search" placeholder="Search users..." class="w-full p-2 rounded-lg bg-primary-800 text-white border border-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 mb-4" onkeyup="filterUsers()" />
+        <script>
+function filterUsers() {
+    const query = document.getElementById('user-search').value.toLowerCase();
+    document.querySelectorAll('[id^="u-"]').forEach(userDiv => {
+        const username = userDiv.querySelector('h3').innerText.toLowerCase();
+        if (username.includes(query)) {
+            userDiv.style.display = '';
+        } else {
+            userDiv.style.display = 'none';
+        }
+    });
+}
+        </script>
+        <div class="space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:grid-cols-3">
+            {% for user in users %}
+                <div class="bg-primary-700 transition-all ease-in-out p-4 rounded-lg mb-4" id="u-{{ user.id }}">
+                    <h3 class="text-xl text-center font-semibold">{{ user.username }}</h3>
+                    <hr class="my-2 border-primary-500" />
+                    <p class="text-sm">Email: {{ user.email }}</p>
+                    <p class="text-sm">Role: {{ user.role }}</p>
+                    <p class="text-sm">Joined: {{ user.created_at.strftime('%Y-%m-%d') }}</p>
+                    <a href="/admin/users/{{ user.id }}/" class="mt-2 inline-block w-full text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg">View User</a>
+                    <a class="mt-2 inline-block w-full text-center bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg delete" data-username="{{ user.username }}" data-id="{{ user.id }}">Delete User</a>
+                </div>
+            {% else %}
+                <p class="text-center">No users found.</p>
+            {% endfor %}
+            <script>
+$('.delete').on('click', async function() {
+    const username = $(this).data('username');
+    const id = $(this).data('id');
+    if (confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
+        try {
+            r = await fetch(`/admin/users/${id}`, { method: 'DELETE' });
+            if (!r.ok) {
+                throw new Error('Failed to delete user');
+            }
+        } catch (e) {
+            return popup(`Failed to delete user "${username}".`, 'error');
+        }
+        popup(`User "${username}" has been deleted.`, 'success');
+        $(`#u-${id}`).remove();
+    }
+});
+            </script>
+        </div>
+    </div>
+</section>
+{% endblock %}

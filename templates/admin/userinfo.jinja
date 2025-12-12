@@ -1,0 +1,56 @@
+{% extends "layout.jinja" %}
+
+{% block title %}{{ user_info.username }} | Admin Panel - RAI{% endblock %}
+
+{% block contents %}
+<section class="min-h-screen flex flex-col gap-y-2 items-center justify-center bg-primary-950 py-12 px-4 sm:px-6 lg:px-8 text-white">
+    <div class="bg-primary-900 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6 text-center">{{ user_info.username }}</h2>
+        <hr class="my-2 border-primary-500" />
+        <p class="text-sm">Email: {{ user_info.email }}</p>
+        <p class="text-sm">Joined: {{ user_info.created_at.strftime('%Y-%m-%d') }}</p>
+        {% if user_info.role == 'admin' %}
+            <p class="text-sm mt-2 font-semibold text-yellow-400">This user has administrative privileges.</p>
+        {% endif %}
+        {% if user.admin %}
+            <a href="/admin/users/" class="mt-4 inline-block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">Back to Users</a>
+        {% endif %}
+
+        <h3 class="text-xl font-bold mt-6 mb-4 text-center">AI Models Created by {{ user_info.username }}</h3>
+        
+        
+        {% if user_info.models|length == 0 %}
+            <p class="text-center">{{ user_info.username }} has not created any AI yet.</p>
+        {% else %}
+            <div class="space-y-4 grid grid-cols-1 mx-6gap-4">
+                {% for model in user_info.models %}
+                    <div class="bg-primary-700 mx-auto transition-all ease-in-out p-4 rounded-lg mb-4" id="m-{{ model.username }}">
+                        <h3 class="text-xl text-center font-semibold">{{ model.name }}</h3>
+                        <hr class="my-2 border-primary-500" />
+                        <p class="text-sm">Created At: {{ model.created_at.strftime('%Y-%m-%d') }}</p>
+                        <a href="{{ url_for('models.model_detail', model_name=model.username )}}" class="mt-2 inline-block w-full text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg">View Model</a>
+                        <a class="mt-2 inline-block w-full text-center bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg delete cursor-pointer" data-username="{{ model.username }}">Delete Model</a>
+                    </div>
+                {% endfor %}
+                <script>
+$('.delete').on('click', async function() {
+    const username = $(this).data('username');
+    if (confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
+        try {
+            r = await fetch(`/models/${username}`, { method: 'DELETE' });
+            if (!r.redirected && !r.ok) {
+                throw new Error('Failed to delete model.');
+            }
+        } catch (e) {
+            return popup(`Failed to delete model "${username}".`, 'error');
+        }
+        popup(`Model "${username}" has been deleted.`, 'success');
+        $(`#m-${username}`).remove();
+    }
+});
+                </script>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

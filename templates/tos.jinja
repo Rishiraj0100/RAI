@@ -1,0 +1,90 @@
+{% extends "layout.jinja" %}
+
+{% block title %}Terms of Service - RAI{% endblock %}
+
+{% block head %}
+<style>
+p {
+    margin-bottom: 1em;
+    padding-left: 0.8em;
+}
+ul.ul {
+    margin-bottom: 1em;
+    list-style-type: disc;
+    padding-left: 1.5em;
+}
+a.clink {
+    text-decoration: underline;
+}
+
+</style>
+{% endblock head %}
+
+{% block contents %}
+<section class="min-h-screen flex flex-col gap-y-2 items-center justify-center bg-primary-950 py-12 px-4 sm:px-6 lg:px-8 text-white">
+    <div class="bg-primary-900 p-8 rounded-lg shadow-lg w-full max-w-3xl">
+        <h2 class="text-2xl font-bold mb-6 text-center">Terms of Service</h2>
+        <p class="text-xl"><strong>Last Updated:</strong> 12/12/2025</p>
+        <div class="prose prose-invert max-w-none">
+
+            <h3 class="text-lg font-bold">1. Eligibility</h3>
+            <p>You must be at least 13 years old (or the minimum age required by your country) to use RAI. By using the Service, you confirm you meet this requirement.</p>
+
+            <h3 class="text-lg font-bold">2. Accounts</h3>
+            <p>To use certain features of RAI, you must create an account.</p>
+            <p>When creating an account, you must provide:</p>
+            <ul class="ul">
+                <li>Username</li>
+                <li>Email address</li>
+                <li>Password</li>
+            </ul>
+            <p>You agree to provide accurate information and keep your account secure. You are responsible for all activity under your account.</p>
+
+            <h3 class="text-lg font-bold">3. Use of the Service</h3>
+            <p>RAI allows users to create AI models, chat with AI models, and interact with features provided through the platform.</p>
+            <p>You agree not to use the Service to:</p>
+            <ul class="ul">
+                <li>Break any laws</li>
+                <li>Upload harmful, abusive, or malicious content</li>
+                <li>Attempt to hack, reverse-engineer, or disrupt the platform</li>
+                <li>Misuse AI models in ways that could harm others</li>
+            </ul>
+            <p>We may suspend or terminate accounts that violate these rules.</p>
+
+            <h3 class="text-lg font-bold">4. User Content</h3>
+            <p>You may upload or create content such as prompts, AI models, or conversations. You retain ownership of your content, but you grant RAI permission to store, process, and display it as needed to operate the Service. We do not sell your personal data.</p>
+
+            <h3 class="text-lg font-bold">5. Privacy</h3>
+            <p>By using RAI, you agree that we may process your information as described in our Privacy Policy.</p>
+            <p>We currently collect:</p>
+            <ul class="ul">
+                <li>Username</li>
+                <li>Email</li>
+                <li>Password (securely stored)</li>
+            </ul>
+
+            <h3 class="text-lg font-bold">6. Availability</h3>
+            <p>We try to keep RAI running smoothly, but we do not guarantee that the service will be error-free, uninterrupted, or always accurate. Features may be updated or removed at any time.</p>
+
+            <h3 class="text-lg font-bold">7. Worldwide Use</h3>
+            <p>RAI is available globally. These Terms are governed by the laws of India, without regard to conflict-of-law principles.</p>
+
+            <h3 class="text-lg font-bold">8. Termination</h3>
+            <p>We may suspend or terminate your access if you violate these Terms. You may delete your account at any time.</p>
+
+            <h3 class="text-lg font-bold">9. Disclaimers</h3>
+            <p>RAI is provided "as is". We do not guarantee AI accuracy, uptime, or that the service will meet your expectations. You use RAI at your own risk.</p>
+
+            <h3 class="text-lg font-bold">10. Limitation of Liability</h3>
+            <p>To the maximum extent permitted by law, RAI is not liable for any damages resulting from using or being unable to use the Service, including loss of data or any harm caused by AI-generated content.</p>
+
+            <h3 class="text-lg font-bold">11. Changes to These Terms</h3>
+            <p>We may update these Terms occasionally. By continuing to use RAI after changes are posted, you accept the updated Terms.</p>
+
+            <h3 class="text-lg font-bold">12. Contact</h3>
+            <p>If you have questions about these Terms, contact us at: <a class='clink text-primary-300' href="/contact">our contact page</a></p>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

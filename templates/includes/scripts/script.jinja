@@ -1,0 +1,74 @@
+<script>
+function cva(c, obj){
+  return (v)=>{let r=obj.variants[v];return c+" "+(typeof r=="function"?r(obj):r)}
+}
+function cn(...args){
+  return args.join(" ");
+}
+function rva(v, ...args){
+  return (obj)=>{return cn(obj.variants[v],...args)}
+}
+
+{% include 'includes/scripts/elements/button.js' %}
+{% include 'includes/scripts/elements/input.js' %}
+
+$(document).ready(()=>{
+  setTimeout(()=>{$(document.body).css("display", "block");$("[autofocus]").focus()}, 300);
+});
+
+function popup(msg, type="error", color="green") {
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let id = '';
+    let charactersLength = characters.length;
+    for (let i = 0; i < 8; i++) {
+        id += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    color = {
+        error: "red",
+        info: "blue",
+        warning: "yellow",
+        error: "red",
+    }[type.toLowerCase()]||color;
+    let el = document.createElement("div");
+    el.innerHTML = `<div onclick="this.remove()" class="flex justify-center inset-0 items-center backdrop-filter-[blur(5px)_brightness(0.7)] overflow-hidden min-w-screen max-w-screen min-h-screen max-h-screen fixed top-0 left-0 z-100">
+        <div
+            role="alert"
+            class="bg-${color}-100 flex flex-col items-center justiy-center dark:bg-${color}-900 border-l-4 border-${color}-500 dark:border-${color}-700 text-${color}-900 dark:text-${color}-100 p-2 rounded-lg flex items-center transition duration-300 ease-in-out hover:bg-${color}-200 dark:hover:bg-${color}-800 transform hover:scale-105 w-fit"
+        >
+            <div class="max-w-fit p-2 grid grid-cols-[min-content_min-content] gap-0 place-items-center">
+                <svg
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    class="h-5 w-5 flex-shrink-0 mr-2 text-${color}-600"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M13 16h-1v-4h1m0-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                    ></path>
+                </svg>
+                <p class="text-sm font-semibold min-w-max">${msg}</p>
+            </div>
+            <button autofocus tabindex=0 id="${id}" class="px-4 focus:outline-1 py-2 mt-2 bg-${color}-500 dark:bg-${color}-700 text-white text-semibold rounded-lg">OK</button>
+        </div>
+    </div>`
+    document.body.appendChild(el);
+    document.getElementById(id).focus();
+}
+
+</script>
+
+
+{% if error %}
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{setTimeout(()=>{popup({{ error }});},200);});
+</script>
+{% endif %}
+{% if success %}
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{setTimeout(()=>{popup({{ success }}, "success");},200);});
+</script>
+{% endif %}
