@@ -149,7 +149,7 @@
                                                                 <div class="bg-token-bg-primary corner-superellipse/1.1 cursor-text overflow-clip bg-clip-padding p-2.5 contain-inline-size dark:bg-[#303030] grid grid-cols-[auto_1fr_auto] [grid-template-areas:&#x27;header_header_header&#x27;_&#x27;leading_primary_trailing&#x27;] group-data-expanded/composer:[grid-template-areas:&#x27;header_header_header&#x27;_&#x27;primary_primary_trailing&#x27;] shadow-short" style="border-radius:28px">
                                                                     <div class="-my-2.5 flex min-h-14 items-center overflow-x-hidden px-1.5 [grid-area:primary] group-data-expanded/composer:mb-0 group-data-expanded/composer:px-2.5">
                                                                         <div class="wcDTda_prosemirror-parent text-token-text-primary max-h-[max(30svh,5rem)] max-h-52 flex-1 overflow-auto [scrollbar-width:thin] default-browser vertical-scroll-fade-mask">
-                                                                            <textarea class="wcDTda_fallbackTextarea" name="prompt-textarea" autofocus="" placeholder="Ask anything" data-virtualkeyboard="true" id="input{{ model.name }}"></textarea>
+                                                                            <textarea class="wcDTda_fallbackTextarea" name="prompt-textarea" autofocus="" placeholder="Ask anything" data-virtualkeyboard="true" id="input{{ model.username }}"></textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="flex items-center gap-2 [grid-area:trailing]">
@@ -255,7 +255,7 @@ let ai_temp = `
 </article>`
 
 function checkTextarea() {
-    const textareaValue = $('#input{{ model.name }}').val().trim();
+    const textareaValue = $('#input{{ model.username }}').val().trim();
     if (textareaValue === '') {
         $("#speech_container").removeClass("hidden");
         $("#send_container").addClass("hidden");
@@ -268,7 +268,7 @@ function checkTextarea() {
 $(document).on("keydown", (e) => {
     setTimeout(()=>{checkTextarea();}, 200);
 });
-$("#input{{ model.name }}").on("keydown", (e) => {
+$("#input{{ model.username }}").on("keydown", (e) => {
     if (e.key === "Enter" && e.shiftKey) {
     return; // let the browser insert newline
   }
@@ -289,7 +289,7 @@ recognition.interimResults = true;
 
 recognition.onresult = function(event) {
     recognizedText = event.results[0][0].transcript;
-    document.getElementById('input{{ model.name }}').value = recognizedText;
+    document.getElementById('input{{ model.username }}').value = recognizedText;
     checkTextarea();
 }
 
@@ -311,26 +311,26 @@ const msgs = [];
 function sendToServer() {
     if (processing){return;}
     processing = true;
-    const textareaValue = $('#input{{ model.name }}').val().trim();
+    const textareaValue = $('#input{{ model.username }}').val().trim();
 
     $("#speech_container").removeClass("hidden");
     $("#send_container").addClass("hidden");
     $("#null_section").addClass("hidden");
     $("#chat_section").removeClass("hidden");
     $("#chats").html((i, t) => {return t+ usr_temp.replace("[[msg]]", marked.parse(textareaValue));});
-    document.getElementById('input{{ model.name }}').value = "";
+    document.getElementById('input{{ model.username }}').value = "";
     document.querySelectorAll('pre code').forEach(block => {
         hljs.highlightElement(block);
     });
-    $('#input{{ model.name }}').attr("disabled", true).attr("placeholder", "Processing  ____");
+    $('#input{{ model.username }}').attr("disabled", true).attr("placeholder", "Processing  ____");
     let iid = setInterval(async () => {
-        $('#input{{ model.name }}').attr("placeholder", processing?"Processing  -___" : "Ask Anything");
+        $('#input{{ model.username }}').attr("placeholder", processing?"Processing  -___" : "Ask Anything");
         await delay(200);
-        $('#input{{ model.name }}').attr("placeholder", processing?"Processing  _-__" : "Ask Anything");
+        $('#input{{ model.username }}').attr("placeholder", processing?"Processing  _-__" : "Ask Anything");
         await delay(200);
-        $('#input{{ model.name }}').attr("placeholder", processing?"Processing  __-_" : "Ask Anything");
+        $('#input{{ model.username }}').attr("placeholder", processing?"Processing  __-_" : "Ask Anything");
         await delay(200);
-        $('#input{{ model.name }}').attr("placeholder", processing?"Processing  ___-" : "Ask Anything");
+        $('#input{{ model.username }}').attr("placeholder", processing?"Processing  ___-" : "Ask Anything");
         await delay(200);
     }, 800)
     msgs.push({
@@ -357,7 +357,7 @@ function sendToServer() {
         });
         clearInterval(iid);
         processing=false;
-        setTimeout(()=>{$('#input{{ model.name }}').attr("disabled", false).attr("placeholder", "Ask Anything");},900);
+        setTimeout(()=>{$('#input{{ model.username }}').attr("disabled", false).attr("placeholder", "Ask Anything");},900);
         $("#cs").scrollTop($("#cs")[0].scrollHeight);
     })
     .catch(error => {
